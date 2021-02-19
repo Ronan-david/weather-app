@@ -107,6 +107,7 @@ export default {
 @import '@/assets/style/variables';
 
 .dashboard {
+    padding-top: pxToRem(30);
     &__city {
         font-weight: 700;
         text-align: center;
@@ -121,7 +122,7 @@ export default {
         margin: 0 auto;
         margin-bottom: pxToRem(15);
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(sm) {
             width: 25%
         }
     }
@@ -130,7 +131,7 @@ export default {
         margin: 0 auto;
         margin-bottom: pxToRem(15);
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(sm) {
             width: 25%
         }
 
@@ -143,6 +144,11 @@ export default {
         display: flex;
         flex-flow: column nowrap;
 
+        @include media-breakpoint-up(sm) {
+            width: 100%;
+            flex-flow: row wrap;
+            justify-content: center;
+        }
         @include media-breakpoint-up(md) {
             width: 100%;
             flex-flow: row nowrap;

@@ -85,14 +85,41 @@ export default {
 @import '@/assets/style/variables';
 
 .weather-box {
+    &__today {
+        flex-flow: column nowrap;
+        padding: pxToRem(10);
+
+        .weather-box__icon {
+            height: 40%;
+            width: 50%;
+            margin: 0 auto;
+
+            @include media-breakpoint-up(sm) {
+                height: auto;
+                width: auto;
+            }
+        }
+    }
+
     display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
+    flex-flow: row nowrap;
+    justify-content: space-around;
     align-items: center;
-    margin: 0 pxToRem(5);
-    padding: pxToRem(10);
-    border-radius: pxToRem(5);
-    border: pxToRem(1) solid grey;
+    z-index: 1;
+    margin: pxToRem(5);
+
+    @include media-breakpoint-up(sm) {
+        flex-flow: column nowrap;
+        justify-content: center;
+        margin: 0 pxToRem(5);
+        margin-top: pxToRem(15);
+        padding: pxToRem(10);
+        border-radius: pxToRem(5);
+    }
+
+    @include media-breakpoint-up(md) {
+        margin-top: 0;
+    }
 
     // glassmorphism
     background: $glass-bg-color;
@@ -119,6 +146,15 @@ export default {
 
     &__date {
         margin: 0;
+    }
+
+    &__icon {
+        width: 25%;
+
+        @include media-breakpoint-up(sm) {
+            width: auto;
+        }
+
     }
 }
 </style>

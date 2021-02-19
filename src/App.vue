@@ -19,12 +19,20 @@ export default {
 @import '@/assets/style/mixins';
 @import '@/assets/style/variables';
 
-body{
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+body {
   margin:0;
   padding:0;
   height: 100%;
+  box-sizing: border-box;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     height: 100vh;
   }
 }
@@ -35,11 +43,10 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $univers-color;
-  padding-top: pxToRem(60);
   background: #1488cc;
 
   &::before, &::after {
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(sm) {
       content: '';
       position: absolute;
       top: 0;
@@ -50,13 +57,13 @@ body{
   }
 
   &::before {
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(sm) {
       background: linear-gradient(#f00, #f0F);
       clip-path: circle(30% at 88% 77%);
     }
   }
   &::after {
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(sm) {
       background: linear-gradient(#2196f3, #e91e63);
       clip-path: circle(20% at 15% 15%);
     }
