@@ -1,10 +1,10 @@
 <template>
     <section class="dashboard">
+        <h1 class="dashboard__city">{{ cityName }}</h1>
         <div class="dashboard__today-weather">
             <weather-box
                 v-if="getIcon"
-                :date="todaysDate"
-                :cityName="cityName"
+                :today="true"
                 :description="description"
                 :humidity="humidity"
                 :getTemp="temperature"
@@ -48,7 +48,6 @@ export default {
             temperature: null,
             getIcon: null,
             weeklyWeather: null,
-            todaysDate: '',
             arrDate: []
         }
     },
@@ -95,7 +94,6 @@ export default {
                 let newDate = new Date(Date.now() + i*24*60*60*1000);
                 this.arrDate.push(new Intl.DateTimeFormat('fr-FR', options).format(newDate))
             }
-            this.todaysDate = this.arrDate[this.arrDate.length - 1]
         }
     },
     created () {
@@ -106,19 +104,38 @@ export default {
 </script>
 <style lang="scss">
 @import '@/assets/style/mixins';
+@import '@/assets/style/variables';
 
 .dashboard {
-    &__today-weather {
-        width: 100%;
+    &__city {
+        font-weight: 700;
+        text-align: center;
+        padding: pxToRem(5) pxToRem(8);
+        font-size: $font-size-24;
+        border-radius: pxToRem(15);
+        border-top: pxToRem(1) solid $border-color;
+        backdrop-filter: blur(5px);
+        border-left: pxToRem(1) solid $border-color;
+        background: $darker-grey;
+        width: 50%;
         margin: 0 auto;
         margin-bottom: pxToRem(15);
 
         @include media-breakpoint-up(md) {
-            width: 50%
+            width: 25%
+        }
+    }
+    &__today-weather {
+        width: 75%;
+        margin: 0 auto;
+        margin-bottom: pxToRem(15);
+
+        @include media-breakpoint-up(md) {
+            width: 25%
         }
 
         @include media-breakpoint-up(lg) {
-            width: 25%
+            width: 15%
         }
     }
 

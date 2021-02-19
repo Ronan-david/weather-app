@@ -1,11 +1,34 @@
 <template>
-    <section class="weather-box">
-        <h2 v-if="cityName">{{ cityName }}</h2>
-        <h3>{{ description }}</h3>
-        <h4 v-if="date">{{ date }} </h4>
-        <img :src="icon" />
-        <p>{{ temperature }}°</p>
-        <p v-if="humidity">Humidité: : {{ humidity }} %</p>
+    <section
+        class="weather-box"
+        :class="{'weather-box__today': today}"
+    >
+        <h4
+            v-if="date"
+            class="weather-box__date"
+        >
+            {{ date }}
+        </h4>
+        <img
+            class="weather-box__icon"
+            :src="icon"
+        />
+        <h3
+            class="weather-box__description"
+        >
+            {{ description }}
+        </h3>
+        <p
+            class="weather-box__temperature"
+            :class="{'weather-box__temperature--big': today}"
+        >
+            {{ temperature }}°C
+        </p>
+        <p
+            v-if="humidity"
+        >
+            Humidité: : {{ humidity }} %
+        </p>
     </section>
 </template>
 <script>
@@ -16,12 +39,12 @@ export default {
         }
     },
     props: {
-        date: {
-            type: String,
-            default: () => (''),
+        today: {
+            type: Boolean,
+            default: () => (false),
             required: false
         },
-        cityName: {
+        date: {
             type: String,
             default: () => (''),
             required: false
@@ -59,6 +82,7 @@ export default {
 </script>
 <style lang="scss">
 @import '@/assets/style/mixins';
+@import '@/assets/style/variables';
 
 .weather-box {
     display: flex;
@@ -68,6 +92,33 @@ export default {
     margin: 0 pxToRem(5);
     padding: pxToRem(10);
     border-radius: pxToRem(5);
-    border: 1px solid grey;
+    border: pxToRem(1) solid grey;
+
+    // glassmorphism
+    background: $glass-bg-color;
+    box-shadow: $glass-box-shadow;
+    backdrop-filter: $glass-backdrop-filter;
+    -webkit-backdrop-filter: $glass-backdrop-filter;
+    border-radius: $glass-border-radius;
+    border: $glass-border;
+
+    &__description {
+        font-size: $font-size-12;
+        margin: 0;
+    }
+
+    &__temperature {
+        font-size: $font-size-16;
+        margin: pxToRem(10) 0 0 0;
+
+        &--big{
+        font-size: $font-size-50;
+
+        }
+    }
+
+    &__date {
+        margin: 0;
+    }
 }
 </style>
