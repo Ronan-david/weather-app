@@ -1,17 +1,27 @@
 <template>
     <section class="dashboard">
-        <!-- composant météo du jour -->
         <div class="dashboard__today-weather">
             <weather-box
                 v-if="getIcon"
                 :cityName="cityName"
                 :description="description"
                 :humidity="humidity"
-                :temperature="temperature"
+                :getTemp="temperature"
                 :getIcon='getIcon'
             />
         </div>
-        <!-- composant météo de la semaine : v-for de la réponse axios sur 7 jours-->
+        <div
+            v-if="weeklyWeather"
+            class="dashboard__weekly-weather"
+        >
+            <weather-box
+                v-for="(day, index) in weeklyWeather"
+                :key="index"
+                :description="day.weather[0].description"
+                :getTemp="day.temp.day"
+                :getIcon="day.weather[0].icon"
+            />
+        </div>
     </section>
 </template>
 <script>
@@ -34,7 +44,8 @@ export default {
             description: '',
             humidity: null,
             temperature: null,
-            getIcon: null
+            getIcon: null,
+            weeklyWeather: null
         }
     },
     methods: {
@@ -67,7 +78,9 @@ export default {
             this.getCityName(LAT, LON)
             const WEATHERURL = this.oneCall + LAT + LON + '&units=metric' +this.appKey + this.lang
             try {
-                await axios.get(WEATHERURL)
+                const RESPONSE = await axios.get(WEATHERURL)
+                this.weeklyWeather = RESPONSE.data.daily
+                this.weeklyWeather.pop()
             } catch (error) {
                 console.error('error getWeather: ', error)
             }
@@ -84,9 +97,8 @@ export default {
 .dashboard {
     &__today-weather {
         width: 100%;
-        border-radius: pxToRem(5);
-        border: 1px solid grey;
         margin: 0 auto;
+        margin-bottom: pxToRem(15);
 
         @include media-breakpoint-up(md) {
             width: 50%
@@ -94,6 +106,17 @@ export default {
 
         @include media-breakpoint-up(lg) {
             width: 25%
+        }
+    }
+
+    &__weekly-weather {
+        display: flex;
+        flex-flow: column nowrap;
+
+        @include media-breakpoint-up(md) {
+            width: 100%;
+            flex-flow: row nowrap;
+            justify-content: center;
         }
     }
 }

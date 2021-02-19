@@ -1,11 +1,10 @@
 <template>
     <section class="weather-box">
-        <!-- box de présentation de la météo à venir -->
-        <h2>{{ cityName }}</h2>
+        <h2 v-if="cityName">{{ cityName }}</h2>
         <h3>{{ description }}</h3>
         <img :src="icon" />
         <p>{{ temperature }}°</p>
-        <p>Humidité: : {{ humidity }} %</p>
+        <p v-if="humidity">Humidité: : {{ humidity }} %</p>
     </section>
 </template>
 <script>
@@ -31,7 +30,7 @@ export default {
             default: () => 0,
             required: false
         },
-        temperature: {
+        getTemp: {
             type: Number,
             default: () => 0,
             required: false
@@ -45,16 +44,24 @@ export default {
     computed: {
         icon () {
             return `http://openweathermap.org/img/wn/${this.getIcon}@2x.png`
+        },
+        temperature () {
+            return Math.floor(this.getTemp)
         }
     }
 }
 </script>
 <style lang="scss">
+@import '@/assets/style/mixins';
 
 .weather-box {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    margin: 0 pxToRem(5);
+    padding: pxToRem(10);
+    border-radius: pxToRem(5);
+    border: 1px solid grey;
 }
 </style>
