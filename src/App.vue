@@ -1,13 +1,16 @@
 <template>
   <div id="app">
+    <dash-board />
   </div>
 </template>
 
 <script>
+import DashBoard from './components/dashboard'
 
 export default {
   name: 'App',
   components: {
+    DashBoard
   }
 }
 </script>
