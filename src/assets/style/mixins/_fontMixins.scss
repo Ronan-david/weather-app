@@ -1,0 +1,4 @@
+@function pxToRem($valPX) {
+    $res: calc(#{$valPX}/16 * 1rem);
+    @return $res
+};
