@@ -3,6 +3,7 @@
         <div class="dashboard__today-weather">
             <weather-box
                 v-if="getIcon"
+                :date="todaysDate"
                 :cityName="cityName"
                 :description="description"
                 :humidity="humidity"
@@ -16,6 +17,7 @@
         >
             <weather-box
                 v-for="(day, index) in weeklyWeather"
+                :date="arrDate[index]"
                 :key="index"
                 :description="day.weather[0].description"
                 :getTemp="day.temp.day"
@@ -45,7 +47,9 @@ export default {
             humidity: null,
             temperature: null,
             getIcon: null,
-            weeklyWeather: null
+            weeklyWeather: null,
+            todaysDate: '',
+            arrDate: []
         }
     },
     methods: {
@@ -76,7 +80,7 @@ export default {
             const LAT = '&lat=' + crd.latitude
             const LON = '&lon=' + crd.longitude
             this.getCityName(LAT, LON)
-            const WEATHERURL = this.oneCall + LAT + LON + '&units=metric' +this.appKey + this.lang
+            const WEATHERURL = this.oneCall + LAT + LON + '&exclude=minutely' + '&units=metric' + this.appKey + this.lang
             try {
                 const RESPONSE = await axios.get(WEATHERURL)
                 this.weeklyWeather = RESPONSE.data.daily
@@ -84,10 +88,19 @@ export default {
             } catch (error) {
                 console.error('error getWeather: ', error)
             }
+        },
+        getDates() {
+            let options = {weekday: "long"};
+            for (let i = 1; i <= 7; i++) {
+                let newDate = new Date(Date.now() + i*24*60*60*1000);
+                this.arrDate.push(new Intl.DateTimeFormat('fr-FR', options).format(newDate))
+            }
+            this.todaysDate = this.arrDate[this.arrDate.length - 1]
         }
     },
     created () {
         this.getGeoLocalisation()
+        this.getDates()
     }
 }
 </script>

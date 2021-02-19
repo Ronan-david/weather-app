@@ -2,6 +2,7 @@
     <section class="weather-box">
         <h2 v-if="cityName">{{ cityName }}</h2>
         <h3>{{ description }}</h3>
+        <h4 v-if="date">{{ date }} </h4>
         <img :src="icon" />
         <p>{{ temperature }}°</p>
         <p v-if="humidity">Humidité: : {{ humidity }} %</p>
@@ -15,6 +16,11 @@ export default {
         }
     },
     props: {
+        date: {
+            type: String,
+            default: () => (''),
+            required: false
+        },
         cityName: {
             type: String,
             default: () => (''),
