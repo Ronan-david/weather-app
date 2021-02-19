@@ -12,10 +12,11 @@ export default {
     name: 'DashBoard',
     data () {
         return {
+            dailyUrl: 'https://api.openweathermap.org/data/2.5/weather?q=',
             oneCall: 'https://api.openweathermap.org/data/2.5/onecall?',
-            weekurl: 'https://pro.openweathermap.org/data/2.5/forecast/climate?q=',
             appKey: '&appid=139356f9973cdaecfb9ffff4f0ee7d31',
-            lang:'&lang=fr'
+            lang:'&lang=fr',
+            cityName: ''
         }
     },
     methods: {
@@ -29,10 +30,20 @@ export default {
             }
             navigator.geolocation.getCurrentPosition(success, error)
         },
+        async getCityName(lat, lon) {
+            const getCity = this.dailyUrl + lat + lon + this.appKey + this.lang
+            try {
+                const RESPONSE = await axios.get(getCity)
+                this.cityName = RESPONSE.data.name
+            } catch (error) {
+                console.error('error getCityName: ', error)
+            }
+        },
         async getWeather(crd) {
-            const LAT = crd.latitude
-            const LON = crd.longitude
-            const WEATHERURL = this.oneCall + '&lat=' + LAT + '&lon=' + LON + this.appKey + this.lang
+            const LAT = '&lat=' + crd.latitude
+            const LON = '&lon=' + crd.longitude
+            this.getCityName(LAT, LON)
+            const WEATHERURL = this.oneCall + LAT + LON + this.appKey + this.lang
             try {
                 await axios.get(WEATHERURL)
             } catch (error) {
